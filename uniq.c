@@ -6,30 +6,25 @@ char *read_long_line(FILE *file);
 
 int main(int argc, char *argv[])
 {
-	char *curr_line, *next_line;
-	int x;
+	char *prev_line, *curr_line;
 	curr_line = (char*) malloc(2048 * sizeof(char));
-	curr_line = (char*)read_long_line(stdin);
-	next_line = (char*) malloc(2048 * sizeof(char));
-	next_line = (char*)read_long_line(stdin);
-	while(next_line != NULL)
+	prev_line = (char*) malloc(2048 * sizeof(char));
+	curr_line = (char*) read_long_line(stdin);
+	while(curr_line != NULL)
 	{
-		x = strcmp(curr_line, next_line);
-		if (x == -10)
+		if(strcmp(curr_line, prev_line) == -10)
+		{
 			break;
-		else if(!x)
+		}
+		else if(!strcmp(curr_line, prev_line))
 			/*Do nothing since duplicant adjacent lines*/;
 		else
 			fputs(curr_line, stdout);
-		strcpy(curr_line, next_line);
-		next_line = read_long_line(stdin);
+		memset(prev_line, '\0', strlen(prev_line));
+		memcpy(prev_line, curr_line, strlen(curr_line));
+		curr_line = (char*)read_long_line(stdin);
 	}
-	if(!x || x == -10)
-		/*Do nothing since duplicant adjacent lines*/;
-	else
-		fputs(curr_line, stdout);
-	free(curr_line);
-	free(next_line);
+	free(prev_line);
 	return 0;
 }
 
