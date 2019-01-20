@@ -20,8 +20,7 @@ int main(int argc, char *argv[])
 			/*Do nothing since duplicant adjacent lines*/;
 		else
 			fputs(curr_line, stdout);
-		memset(prev_line, '\0', strlen(prev_line));
-		memcpy(prev_line, curr_line, strlen(curr_line));
+		strcpy(prev_line, curr_line);
 		curr_line = (char*)read_long_line(stdin);
 	}
 	free(prev_line);
